@@ -1,3 +1,13 @@
+// ===== Theme Toggle (run first to prevent flash) =====
+const themeRoot = document.documentElement;
+const themeBtn  = document.getElementById('theme-toggle');
+
+themeBtn.addEventListener('click', () => {
+  const next = themeRoot.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  themeRoot.setAttribute('data-theme', next);
+  localStorage.setItem('rp-theme', next);
+});
+
 // ===== Custom Cursor =====
 const cur  = document.getElementById('cur');
 const ring = document.getElementById('cur-ring');
@@ -138,20 +148,18 @@ document.getElementById('ct-form').addEventListener('submit', e => {
 
   const pGeo = new THREE.BufferGeometry();
   pGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  scene.add(new THREE.Points(pGeo, new THREE.PointsMaterial({
-    color: 0xe8921a, size: 0.055, transparent: true, opacity: 0.85
-  })));
+  const pMat = new THREE.PointsMaterial({ color: 0xe8921a, size: 0.065, transparent: true, opacity: 0.9 });
+  scene.add(new THREE.Points(pGeo, pMat));
 
   const MAX = 380;
   const lp  = new Float32Array(MAX * 6);
   const lGeo = new THREE.BufferGeometry();
   lGeo.setAttribute('position', new THREE.BufferAttribute(lp, 3));
   lGeo.setDrawRange(0, 0);
-  scene.add(new THREE.LineSegments(lGeo, new THREE.LineBasicMaterial({
-    color: 0xe8921a, transparent: true, opacity: 0.09
-  })));
+  const lMat = new THREE.LineBasicMaterial({ color: 0xe8921a, transparent: true, opacity: 0.12 });
+  scene.add(new THREE.LineSegments(lGeo, lMat));
 
-  const kSph   = new THREE.SphereGeometry(0.055, 8, 8);
+  const kSph   = new THREE.SphereGeometry(0.065, 8, 8);
   const kNodes = Array.from({ length: 10 }, () => {
     const m = new THREE.Mesh(kSph, new THREE.MeshBasicMaterial({
       color: 0xf5c030, transparent: true, opacity: 0.7
@@ -181,6 +189,15 @@ document.getElementById('ct-form').addEventListener('submit', e => {
   }
   window.addEventListener('resize', resize);
   resize();
+
+  // Adapt particle opacity based on theme
+  function adaptHeroColors() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    pMat.opacity = dark ? 0.85 : 0.72;
+    lMat.opacity = dark ? 0.09 : 0.14;
+  }
+  adaptHeroColors();
+  new MutationObserver(adaptHeroColors).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   let f = 0;
   (function loop() {
@@ -225,6 +242,165 @@ document.getElementById('ct-form').addEventListener('submit', e => {
     camera.position.x = cx;
     camera.position.y = cy;
     camera.lookAt(0, 0, 0);
+    renderer.render(scene, camera);
+  })();
+})();
+
+// ===== Three.js Neural Sphere (About) — Icosahedron network =====
+(function () {
+  if (typeof THREE === 'undefined') return;
+  const canvas = document.getElementById('about-canvas');
+  if (!canvas) return;
+
+  const SIZE = 280;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(SIZE, SIZE);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(52, 1, 0.1, 100);
+  camera.position.z = 3.8;
+
+  // Wireframe icosahedron — neural model topology
+  const icoGeo = new THREE.IcosahedronGeometry(1.25, 2);
+  const icoMat = new THREE.MeshBasicMaterial({ color: 0xe8921a, wireframe: true, transparent: true, opacity: 0.22 });
+  const ico = new THREE.Mesh(icoGeo, icoMat);
+  scene.add(ico);
+
+  // Bright nodes at vertices
+  const verts = icoGeo.attributes.position;
+  const nodeMesh = new THREE.InstancedMesh(
+    new THREE.SphereGeometry(0.045, 6, 6),
+    new THREE.MeshBasicMaterial({ color: 0xf5c030, transparent: true, opacity: 0.9 }),
+    verts.count
+  );
+  const dummy = new THREE.Object3D();
+  for (let i = 0; i < verts.count; i++) {
+    dummy.position.set(verts.getX(i), verts.getY(i), verts.getZ(i));
+    dummy.updateMatrix();
+    nodeMesh.setMatrixAt(i, dummy.matrix);
+  }
+  nodeMesh.instanceMatrix.needsUpdate = true;
+  scene.add(nodeMesh);
+
+  // Outer orbital particles — represents data flowing around the model
+  const N2 = 60;
+  const orbPos = new Float32Array(N2 * 3);
+  for (let i = 0; i < N2; i++) {
+    const phi   = Math.acos(-1 + (2 * i) / N2);
+    const theta = Math.sqrt(N2 * Math.PI) * phi;
+    const r = 1.9 + (Math.random() - 0.5) * 0.3;
+    orbPos[i*3]   = r * Math.cos(theta) * Math.sin(phi);
+    orbPos[i*3+1] = r * Math.sin(theta) * Math.sin(phi);
+    orbPos[i*3+2] = r * Math.cos(phi);
+  }
+  const orbGeo = new THREE.BufferGeometry();
+  orbGeo.setAttribute('position', new THREE.BufferAttribute(orbPos, 3));
+  const orbMat = new THREE.PointsMaterial({ color: 0xe8921a, size: 0.038, transparent: true, opacity: 0.55 });
+  const orbs = new THREE.Points(orbGeo, orbMat);
+  scene.add(orbs);
+
+  // Inner core sphere — the model "brain"
+  const coreMesh = new THREE.Mesh(
+    new THREE.SphereGeometry(0.38, 16, 16),
+    new THREE.MeshBasicMaterial({ color: 0xe8921a, transparent: true, opacity: 0.06, wireframe: false })
+  );
+  scene.add(coreMesh);
+
+  function adaptAbout() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    icoMat.opacity    = dark ? 0.22 : 0.30;
+    orbMat.opacity    = dark ? 0.55 : 0.65;
+    coreMesh.material.opacity = dark ? 0.06 : 0.09;
+  }
+  adaptAbout();
+  new MutationObserver(adaptAbout).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  let fa = 0;
+  (function loopAbout() {
+    requestAnimationFrame(loopAbout);
+    fa++;
+    ico.rotation.x      = fa * 0.006;
+    ico.rotation.y      = fa * 0.009;
+    nodeMesh.rotation.x = fa * 0.006;
+    nodeMesh.rotation.y = fa * 0.009;
+    orbs.rotation.x     = -fa * 0.004;
+    orbs.rotation.y     = fa * 0.007;
+    coreMesh.rotation.y = fa * 0.012;
+    renderer.render(scene, camera);
+  })();
+})();
+
+// ===== Three.js Torus Knot (Skills) — interconnected AI systems =====
+(function () {
+  if (typeof THREE === 'undefined') return;
+  const canvas = document.getElementById('skills-canvas');
+  if (!canvas) return;
+
+  const SIZE = 400;
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(SIZE, SIZE);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+  camera.position.z = 4.5;
+
+  // Torus knot — represents the intricate interconnection of AI knowledge domains
+  const tkGeo = new THREE.TorusKnotGeometry(1.2, 0.38, 120, 18);
+  const tkMat = new THREE.MeshBasicMaterial({ color: 0xe8921a, wireframe: true, transparent: true, opacity: 0.28 });
+  const tk = new THREE.Mesh(tkGeo, tkMat);
+  scene.add(tk);
+
+  // Scattered particles following torus knot surface — data points
+  const posArr = tkGeo.attributes.position.array;
+  const totalV = posArr.length / 3;
+  const NP = 180;
+  const pBuf = new Float32Array(NP * 3);
+  for (let i = 0; i < NP; i++) {
+    const idx = Math.floor(Math.random() * totalV);
+    pBuf[i*3]   = posArr[idx*3];
+    pBuf[i*3+1] = posArr[idx*3+1];
+    pBuf[i*3+2] = posArr[idx*3+2];
+  }
+  const pGeo2 = new THREE.BufferGeometry();
+  pGeo2.setAttribute('position', new THREE.BufferAttribute(pBuf, 3));
+  const pMat2 = new THREE.PointsMaterial({ color: 0xf5c030, size: 0.055, transparent: true, opacity: 0.75 });
+  const pts2 = new THREE.Points(pGeo2, pMat2);
+  scene.add(pts2);
+
+  // Outer ring of floating data orbs
+  const ringN = 24;
+  const ringPos = new Float32Array(ringN * 3);
+  for (let i = 0; i < ringN; i++) {
+    const a = (i / ringN) * Math.PI * 2;
+    const r = 2.2 + (Math.random() - 0.5) * 0.4;
+    ringPos[i*3]   = r * Math.cos(a);
+    ringPos[i*3+1] = r * Math.sin(a) * 0.5;
+    ringPos[i*3+2] = (Math.random() - 0.5) * 1.5;
+  }
+  const ringGeo = new THREE.BufferGeometry();
+  ringGeo.setAttribute('position', new THREE.BufferAttribute(ringPos, 3));
+  const ringMat = new THREE.PointsMaterial({ color: 0xe8921a, size: 0.06, transparent: true, opacity: 0.45 });
+  scene.add(new THREE.Points(ringGeo, ringMat));
+
+  function adaptSkills() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    tkMat.opacity   = dark ? 0.28 : 0.38;
+    pMat2.opacity   = dark ? 0.75 : 0.85;
+    ringMat.opacity = dark ? 0.45 : 0.55;
+  }
+  adaptSkills();
+  new MutationObserver(adaptSkills).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+  let fs = 0;
+  (function loopSkills() {
+    requestAnimationFrame(loopSkills);
+    fs++;
+    tk.rotation.x    = fs * 0.004;
+    tk.rotation.y    = fs * 0.007;
+    pts2.rotation.x  = fs * 0.004;
+    pts2.rotation.y  = fs * 0.007;
     renderer.render(scene, camera);
   })();
 })();
