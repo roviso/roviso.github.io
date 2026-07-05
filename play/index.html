@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Ravi Prajapati — interactive 3D portfolio. Drive a car around the world to explore projects, skills and experience.">
+<title>Ravi Prajapati — 3D World</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<!-- Start / loading overlay -->
+<div id="overlay">
+  <div class="ov-card">
+    <div class="ov-kicker">INTERACTIVE 3D PORTFOLIO</div>
+    <h1 class="ov-name">Ravi<br>Prajapati</h1>
+    <div class="ov-role">ML/AI Engineer · Founder of Thimi Tech</div>
+    <div class="ov-controls">
+      <div class="ov-keys">
+        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span>
+        <em>or arrow keys to drive</em>
+      </div>
+      <div class="ov-keys"><span class="key wide">SPACE</span><em>brake</em>
+        <span class="key">E</span><em>interact</em>
+        <span class="key">R</span><em>reset car</em></div>
+    </div>
+    <button id="start-btn">START ENGINE</button>
+    <a class="ov-classic" href="../">← prefer the classic site?</a>
+  </div>
+</div>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <div id="hud-top">
+    <a href="../" id="back-link">← RP · classic site</a>
+    <button id="reset-btn" title="Reset car (R)">⟲ reset</button>
+  </div>
+  <div id="hint">W A S D — drive &nbsp;·&nbsp; SPACE — brake &nbsp;·&nbsp; R — reset</div>
+
+  <!-- Info panel shown near interactive zones -->
+  <div id="panel" class="hidden">
+    <div id="panel-tag"></div>
+    <div id="panel-title"></div>
+    <div id="panel-desc"></div>
+    <button id="panel-open" class="hidden">OPEN&nbsp;&nbsp;<span class="key">E</span></button>
+  </div>
+
+  <!-- Touch controls -->
+  <div id="touch" class="hidden">
+    <div id="t-steer">
+      <button data-k="left">◀</button>
+      <button data-k="right">▶</button>
+    </div>
+    <div id="t-drive">
+      <button data-k="back">▼</button>
+      <button data-k="fwd">▲</button>
+    </div>
+  </div>
+</div>
+
+<div id="webgl-error" class="hidden">
+  <p>Your browser could not start WebGL.<br>Visit the <a href="../">classic portfolio</a> instead.</p>
+</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+  }
+}
+</script>
+<script type="module" src="game.js"></script>
+</body>
+</html>
