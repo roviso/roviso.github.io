@@ -1,367 +1,103 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Ravi Prajapati - ML/AI Engineer, Founder & CEO of Thimi Tech, specializing in LLMs, RAGs, Agentic AI, and healthcare AI solutions">
-<title>Ravi Prajapati — ML/AI Engineer</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,200;0,300;0,400;0,500;0,700;0,800;0,900;1,200&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script>(function(){var t=localStorage.getItem('rp-theme')||'light';document.documentElement.setAttribute('data-theme',t);})()</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Ravi Prajapati — ML/AI Engineer, Founder & CEO of Thimi Tech. Interactive 3D portfolio: drive a monster truck around an island to explore projects, skills and experience.">
+<title>Ravi Prajapati — Interactive 3D Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="game.css">
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur-ring"></div>
-<div id="sp"></div>
+<canvas id="game"></canvas>
 
-<aside class="social-sidebar" aria-label="Social links">
-  <a href="https://youtube.com/@rovisodominator?si=Y4SRT6mssEeDuwsu" target="_blank" rel="noopener" class="ss-link ss-yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-  <a href="https://www.instagram.com/roviso_dominator/" target="_blank" rel="noopener" class="ss-link ss-ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-  <a href="https://www.linkedin.com/in/ravi-prajapati-2b7422149" target="_blank" rel="noopener" class="ss-link ss-li" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-  <a href="https://www.facebook.com/rovisodominator" target="_blank" rel="noopener" class="ss-link ss-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-  <a href="https://www.twitch.tv/rovisodominator" target="_blank" rel="noopener" class="ss-link ss-tw" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-  <a href="https://kick.com/roviso" target="_blank" rel="noopener" class="ss-link ss-kick" aria-label="Kick">
-    <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M2 3h4v7.4L12.2 3H17L11 10l6 11h-5l-3.8-7.3L6 16.4V21H2Z"/></svg>
-  </a>
-  <a href="https://www.tiktok.com/@roviso_dominator" target="_blank" rel="noopener" class="ss-link ss-tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-  <a href="https://github.com/roviso" target="_blank" rel="noopener" class="ss-link ss-gh" aria-label="GitHub"><i class="fab fa-github"></i></a>
-  <a href="mailto:ravi.praj05@gmail.com" class="ss-link ss-em" aria-label="Email"><i class="fas fa-envelope"></i></a>
-  <div class="ss-line"></div>
-</aside>
-
-<nav id="nav">
-  <div class="logo">RP</div>
-  <ul class="nav-links">
-    <li><a href="#hero"    class="nl active">Home</a></li>
-    <li><a href="#about"   class="nl">About</a></li>
-    <li><a href="#exp"     class="nl">Experience</a></li>
-    <li><a href="#proj"    class="nl">Projects</a></li>
-    <li><a href="#skills"  class="nl">Skills</a></li>
-    <li><a href="#contact" class="nl">Contact</a></li>
-    <li><a href="play/" class="nl" style="color:#e8921a">3D World <i class="fas fa-gamepad" style="font-size:.7rem"></i></a></li>
-  </ul>
-  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
-    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-  </button>
-</nav>
-
-<section id="hero">
-  <canvas id="hero-canvas"></canvas>
-  <div class="hero-inner">
-    <div class="hero-tag rv"><i class="fas fa-circle" style="font-size:.4rem"></i>Available for projects</div>
-    <h1 class="hero-name rv">
-      <span class="line1">Ravi</span>
-      <span class="line2">Prajapati</span>
-    </h1>
-    <div class="hero-role rv">
-      <span class="typed" id="typed"></span><span class="caret">|</span>
+<!-- Start / loading overlay -->
+<div id="overlay">
+  <div class="ov-card">
+    <div class="ov-kicker">INTERACTIVE 3D PORTFOLIO</div>
+    <h1 class="ov-name">Ravi<br>Prajapati</h1>
+    <div class="ov-role">ML/AI Engineer · Founder of Thimi Tech</div>
+    <div class="ov-controls">
+      <div class="ov-keys">
+        <span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span>
+        <em>or arrow keys to drive</em>
+      </div>
+      <div class="ov-keys">
+        <span class="key wide">SHIFT</span><em>turbo</em>
+        <span class="key wide">SPACE</span><em>jump</em>
+      </div>
+      <div class="ov-keys">
+        <span class="key">E</span><em>interact</em>
+        <span class="key">R</span><em>reset truck</em>
+      </div>
     </div>
-    <p class="hero-desc rv">
-      Building <strong>intelligent, scalable AI solutions</strong> at the intersection of machine learning, automation, and real-world deployment.
-    </p>
-    <div class="cta-row rv">
-      <a href="#proj"    class="btn-fill">View My Work</a>
-      <a href="#contact" class="btn-line">Get In Touch</a>
-      <a href="ravi-cv-2026-updated.pdf" class="btn-cv" download><i class="fas fa-download"></i> Download CV</a>
-      <a href="play/" class="btn-line" style="border-color:#e8921a;color:#e8921a"><i class="fas fa-gamepad"></i> Play the 3D World</a>
-    </div>
-    <div class="hero-social rv">
-      <a href="https://youtube.com/@rovisodominator?si=Y4SRT6mssEeDuwsu" target="_blank" rel="noopener" class="ss-yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.instagram.com/roviso_dominator/" target="_blank" rel="noopener" class="ss-ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-      <a href="https://www.linkedin.com/in/ravi-prajapati-2b7422149" target="_blank" rel="noopener" class="ss-li" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-      <a href="https://www.facebook.com/rovisodominator" target="_blank" rel="noopener" class="ss-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-      <a href="https://www.twitch.tv/rovisodominator" target="_blank" rel="noopener" class="ss-tw" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-      <a href="https://kick.com/roviso" target="_blank" rel="noopener" class="ss-kick" aria-label="Kick"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M2 3h4v7.4L12.2 3H17L11 10l6 11h-5l-3.8-7.3L6 16.4V21H2Z"/></svg></a>
-      <a href="https://www.tiktok.com/@roviso_dominator" target="_blank" rel="noopener" class="ss-tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-      <a href="https://github.com/roviso" target="_blank" rel="noopener" class="ss-gh" aria-label="GitHub"><i class="fab fa-github"></i></a>
-      <a href="mailto:ravi.praj05@gmail.com" class="ss-em" aria-label="Email"><i class="fas fa-envelope"></i></a>
+    <button id="start-btn">START ENGINE</button>
+    <a class="ov-classic" href="classic/">← prefer the classic site?</a>
+  </div>
+</div>
+
+<!-- HUD -->
+<div id="hud" class="hidden">
+  <div id="hud-top">
+    <a href="classic/" id="back-link">← RP · classic site</a>
+    <div id="hud-top-right">
+      <button id="sound-btn" title="Toggle sound">🔊</button>
+      <button id="reset-btn" title="Reset truck (R)">⟲ reset</button>
     </div>
   </div>
-  <div class="scroll-cue">
-    <div class="scroll-line"></div>
-    <span>scroll</span>
-  </div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</section>
 
-<section id="about">
-  <div class="wrap">
-    <div class="sec-hdr rv"><span class="sec-n">01 ——</span><h2 class="sec-t">About Me</h2><div class="sec-l"></div></div>
-    <div class="about-grid">
-      <div class="about-text rv-l">
-        <p>I'm the <strong>Founder &amp; CEO of Thimi Tech</strong> and an <strong>ML/AI engineer</strong> currently pursuing an MSc in Artificial Intelligence at London Metropolitan University (via Islington College, Kathmandu).</p>
-        <p>I focus on cutting-edge AI including <strong>Agentic AI systems</strong>, <strong>Retrieval-Augmented Generation (RAGs)</strong>, <strong>Model Context Protocols (MCPs)</strong>, and modern LLMs — GPT-4, Claude, LLaMA, Mistral.</p>
-        <p>I thrive at the intersection of machine learning, automation, and real-world deployment — building and shipping AI-driven products for businesses and government bodies across Nepal.</p>
-        <div class="hl-grid">
-          <div class="hl">Production-grade ML models</div>
-          <div class="hl">Healthcare AI solutions</div>
-          <div class="hl">LLM &amp; Generative AI</div>
-          <div class="hl">Founder, Thimi Tech</div>
-        </div>
-      </div>
-      <div class="about-vis rv-r">
-        <div class="about-bg-n">01</div>
-        <canvas id="about-canvas"></canvas>
-      </div>
+  <!-- minimap -->
+  <div id="minimap-wrap">
+    <canvas id="minimap" width="156" height="200"></canvas>
+  </div>
+
+  <!-- missions -->
+  <div id="tasks">
+    <button id="tasks-head">🏁 MISSIONS <span id="tasks-count">0/0</span> <span id="tasks-arrow">▾</span></button>
+    <ul id="tasks-list"></ul>
+  </div>
+
+  <!-- toast popups -->
+  <div id="toasts"></div>
+
+  <div id="hint">W A S D — drive · SHIFT — turbo · SPACE — jump · R — reset</div>
+
+  <!-- Info panel shown near interactive zones -->
+  <div id="panel" class="hidden">
+    <div id="panel-tag"></div>
+    <div id="panel-title"></div>
+    <div id="panel-desc"></div>
+    <button id="panel-open" class="hidden">OPEN&nbsp;&nbsp;<span class="key">E</span></button>
+  </div>
+
+  <!-- Touch controls -->
+  <div id="touch" class="hidden">
+    <div id="t-steer">
+      <button data-k="left">◀</button>
+      <button data-k="right">▶</button>
+    </div>
+    <div id="t-drive">
+      <button data-k="turbo" class="t-word">TURBO</button>
+      <button data-k="jump" class="t-word">JUMP</button>
+      <button data-k="back">▼</button>
+      <button data-k="fwd">▲</button>
     </div>
   </div>
-</section>
+</div>
 
-<section id="exp">
-  <div class="wrap">
-    <div class="sec-hdr rv"><span class="sec-n">02 ——</span><h2 class="sec-t">Experience</h2><div class="sec-l"></div></div>
-    <div class="tl">
-      <div class="tl-item rv">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-title">Founder &amp; CEO</div>
-          <div class="tl-co"><a href="https://thimitech.com" target="_blank" rel="noopener" class="tl-co-link">Thimi Tech Pvt. Ltd.</a></div>
-          <div class="tl-meta">
-            <span class="tl-date">2025 – Present</span>
-            <span class="tl-loc"><i class="fas fa-map-marker-alt"></i> Bhaktapur, Nepal</span>
-          </div>
-          <ul class="tl-ul">
-            <li>Founded and lead a Nepal-based software company delivering intelligent digital solutions — geoportals, municipal management systems, AI/ML applications, and modern web platforms</li>
-            <li>Set technical direction across an in-house team; own architecture, model selection, deployment, and delivery of every shipped product</li>
-            <li>Trusted by <strong>Bagmati Province Government</strong>, Explore Nepal, Modish Era, and Navtech Engineering Solutions</li>
-            <li>Built and operate a portfolio of live products in production (PlanMyNepal, AI.ThimiTech, Survey Platform)</li>
-          </ul>
-        </div>
-      </div>
-      <div class="tl-item rv">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-title">Machine Learning Engineer</div>
-          <div class="tl-co">S.D.S. Software Development Nepal</div>
-          <div class="tl-meta">
-            <span class="tl-date">Jan 2024 – Ongoing</span>
-            <span class="tl-loc"><i class="fas fa-map-marker-alt"></i> Kathmandu</span>
-          </div>
-          <ul class="tl-ul">
-            <li>Built, deployed, maintained, and improved production-grade machine learning models</li>
-            <li>Specialized in <strong>healthcare AI</strong> — automating claims and document workflows via OCR and NLP</li>
-            <li>Designed infrastructure for automating healthcare operations with cloud deployment at scale</li>
-          </ul>
-        </div>
-      </div>
-      <div class="tl-item rv">
-        <div class="tl-dot"></div>
-        <div class="tl-card">
-          <div class="tl-title">ML Engineer</div>
-          <div class="tl-co">Prixa Technologies</div>
-          <div class="tl-meta">
-            <span class="tl-date">Dec 2020 – Dec 2023</span>
-            <span class="tl-loc"><i class="fas fa-map-marker-alt"></i> Lalitpur</span>
-          </div>
-          <ul class="tl-ul">
-            <li>Designed and deployed AI models in production using AWS, PaperSpace, and GCP</li>
-            <li>Led projects implementing LLMs and generative models for content personalization</li>
-            <li>Built data pipelines for ML workflows — web scraping, Airflow, Celery orchestration</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+<div id="webgl-error" class="hidden">
+  <p>Your browser could not start WebGL.<br>Visit the <a href="classic/">classic portfolio</a> instead.</p>
+</div>
 
-<section id="proj">
-  <div class="wrap">
-    <div class="sec-hdr rv"><span class="sec-n">03 ——</span><h2 class="sec-t">Featured Projects</h2><div class="sec-l"></div></div>
-    <div class="proj-grid">
-      <div class="proj-card feat rv">
-        <div class="p-icon" style="background:linear-gradient(135deg,#e8921a,#7a3000)"><i class="fas fa-map-marked-alt"></i></div>
-        <div class="p-row"><div class="p-title">PlanMyNepal</div><span class="p-badge ba">Live</span></div>
-        <p class="p-desc">Travel &amp; trip-planning platform for Nepal — combining itinerary tools, content storytelling, and local destination data into a single planning experience for travellers.</p>
-        <div class="p-tags"><span class="p-tag">Travel Tech</span><span class="p-tag">Web Platform</span><span class="p-tag">AI</span></div>
-        <div class="p-links"><a href="https://planmynepal.com" target="_blank" rel="noopener" class="p-link"><i class="fas fa-external-link-alt"></i> planmynepal.com</a></div>
-      </div>
-      <div class="proj-card feat rv">
-        <div class="p-icon"><i class="fas fa-robot"></i></div>
-        <div class="p-row"><div class="p-title">AI.ThimiTech</div><span class="p-badge ba">Live</span></div>
-        <p class="p-desc">Custom chatbot service with trainable knowledge bases — RAG-powered, context-aware responses tuned to each business's documents and workflows.</p>
-        <div class="p-tags"><span class="p-tag">RAG</span><span class="p-tag">LLM</span><span class="p-tag">SaaS</span><span class="p-tag">Chatbot</span></div>
-        <div class="p-links"><a href="https://ai.thimitech.com" target="_blank" rel="noopener" class="p-link"><i class="fas fa-external-link-alt"></i> ai.thimitech.com</a></div>
-      </div>
-      <div class="proj-card rv">
-        <div class="p-icon" style="background:linear-gradient(135deg,#5a3800,#8a5800)"><i class="fas fa-map"></i></div>
-        <div class="p-row"><div class="p-title">Survey &amp; Geoportal Platform</div><span class="p-badge bp">Thimi Tech</span></div>
-        <p class="p-desc">Geospatial survey and municipal management platform serving government bodies — enabling field data collection, map visualisation, and digital operations.</p>
-        <div class="p-tags"><span class="p-tag">GIS</span><span class="p-tag">Gov Tech</span><span class="p-tag">Web</span></div>
-        <div class="p-links"><a href="https://survey.thimitech.com" target="_blank" rel="noopener" class="p-link"><i class="fas fa-external-link-alt"></i> survey.thimitech.com</a></div>
-      </div>
-      <div class="proj-card rv">
-        <div class="p-icon"><i class="fas fa-microphone-alt"></i></div>
-        <div class="p-row"><div class="p-title">Nepali TTS Project</div><span class="p-badge bp">Production</span></div>
-        <p class="p-desc">Real-time Nepali text-to-speech using advanced ML models. Integrated into Annapurna Post and ThahaKhabar news platforms in production.</p>
-        <div class="p-tags"><span class="p-tag">ML</span><span class="p-tag">TTS</span><span class="p-tag">NLP</span><span class="p-tag">Production</span></div>
-      </div>
-      <div class="proj-card rv">
-        <div class="p-icon" style="background:linear-gradient(135deg,#c04010,#8a1a00)"><i class="fas fa-newspaper"></i></div>
-        <div class="p-row"><div class="p-title">News Talk</div><span class="p-badge bp">Android &amp; iOS</span></div>
-        <p class="p-desc">Personalized news recommendation app powered by ML algorithms using user interaction data.</p>
-        <div class="p-tags"><span class="p-tag">Recommendation</span><span class="p-tag">Mobile</span><span class="p-tag">ML</span></div>
-      </div>
-      <div class="proj-card rv">
-        <div class="p-icon" style="background:linear-gradient(135deg,#6b4e00,#a07010)"><i class="fas fa-link"></i></div>
-        <div class="p-row"><div class="p-title">SIKKA</div><span class="p-badge bp">Blockchain</span></div>
-        <p class="p-desc">Digital voucher platform built with Hyperledger Fabric. Deployed on AWS; distributed digital tokens to beneficiaries.</p>
-        <div class="p-tags"><span class="p-tag">Hyperledger</span><span class="p-tag">AWS</span><span class="p-tag">Blockchain</span></div>
-      </div>
-      <div class="proj-card rv">
-        <div class="p-icon" style="background:linear-gradient(135deg,#5a3800,#8a5800)"><i class="fas fa-eye"></i></div>
-        <div class="p-row"><div class="p-title">Nepali OCR System</div></div>
-        <p class="p-desc">OCR pipeline for digitizing Nepali documents with custom preprocessing and model optimization.</p>
-        <div class="p-tags"><span class="p-tag">OCR</span><span class="p-tag">CV</span><span class="p-tag">NLP</span></div>
-      </div>
-      <div class="proj-card rv">
-        <div class="p-icon"><i class="fas fa-comments"></i></div>
-        <div class="p-row"><div class="p-title">RAG-based Chatbot</div></div>
-        <p class="p-desc">Retrieval-augmented generation with vector databases for intelligent question-answering systems.</p>
-        <div class="p-tags"><span class="p-tag">RAG</span><span class="p-tag">LLM</span><span class="p-tag">Vector DB</span></div>
-      </div>
-      <div class="proj-card rv">
-        <div class="p-icon" style="background:linear-gradient(135deg,#7a3000,#c05010)"><i class="fas fa-palette"></i></div>
-        <div class="p-row"><div class="p-title">AI Image Generation</div></div>
-        <p class="p-desc">Diffusion-based generative image models for creative AI applications and visual content.</p>
-        <div class="p-tags"><span class="p-tag">Diffusion</span><span class="p-tag">Generative AI</span><span class="p-tag">CV</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="skills">
-  <div class="wrap">
-    <div class="sec-hdr rv"><span class="sec-n">04 ——</span><h2 class="sec-t">Technical Skills</h2><div class="sec-l"></div></div>
-    <div class="skills-inner">
-      <canvas id="skills-canvas"></canvas>
-      <div class="sk-grid">
-        <div class="sk-cat rv"><div class="sk-head"><i class="fas fa-brain"></i>Machine Learning</div><div class="sk-tags"><span class="sk-tag">Deep Learning</span><span class="sk-tag">LLMs</span><span class="sk-tag">RAGs</span><span class="sk-tag">Agentic AI</span><span class="sk-tag">MCPs</span><span class="sk-tag">NLP</span><span class="sk-tag">Computer Vision</span></div></div>
-        <div class="sk-cat rv"><div class="sk-head"><i class="fas fa-code"></i>Libraries &amp; Frameworks</div><div class="sk-tags"><span class="sk-tag">PyTorch</span><span class="sk-tag">Hugging Face</span><span class="sk-tag">NumPy</span><span class="sk-tag">Pandas</span><span class="sk-tag">FastAPI</span><span class="sk-tag">Gradio</span><span class="sk-tag">Streamlit</span></div></div>
-        <div class="sk-cat rv"><div class="sk-head"><i class="fas fa-cloud"></i>Cloud &amp; Infrastructure</div><div class="sk-tags"><span class="sk-tag">AWS</span><span class="sk-tag">GCP</span><span class="sk-tag">PaperSpace</span><span class="sk-tag">Docker</span></div></div>
-        <div class="sk-cat rv"><div class="sk-head"><i class="fas fa-database"></i>Databases &amp; Tools</div><div class="sk-tags"><span class="sk-tag">PostgreSQL</span><span class="sk-tag">Vector DBs</span><span class="sk-tag">FAISS</span><span class="sk-tag">Pinecone</span><span class="sk-tag">Tesseract</span><span class="sk-tag">EasyOCR</span></div></div>
-        <div class="sk-cat rv"><div class="sk-head"><i class="fas fa-cogs"></i>Automation</div><div class="sk-tags"><span class="sk-tag">Selenium</span><span class="sk-tag">Airflow</span><span class="sk-tag">Celery</span><span class="sk-tag">n8n</span></div></div>
-        <div class="sk-cat rv"><div class="sk-head"><i class="fas fa-robot"></i>LLMs &amp; Models</div><div class="sk-tags"><span class="sk-tag">GPT-4</span><span class="sk-tag">Claude</span><span class="sk-tag">LLaMA</span><span class="sk-tag">Mistral</span><span class="sk-tag">VLMs</span></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="edu">
-  <div class="wrap">
-    <div class="sec-hdr rv"><span class="sec-n">05 ——</span><h2 class="sec-t">Education</h2><div class="sec-l"></div></div>
-    <div class="edu-grid">
-      <div class="edu-card edu-card-feat rv">
-        <div class="edu-ico" style="background:linear-gradient(135deg,#e8921a,#c04010)"><i class="fas fa-brain"></i></div>
-        <div class="edu-deg">MSc IT with Specialisation in Artificial Intelligence</div>
-        <div class="edu-inst">Islington College <span class="edu-affil">— affiliated with London Metropolitan University, UK</span></div>
-        <div class="edu-loc">Kathmandu, Nepal</div>
-        <div class="edu-period">Nov 2025 – Present</div>
-      </div>
-      <div class="edu-card rv">
-        <div class="edu-ico"><i class="fas fa-graduation-cap"></i></div>
-        <div class="edu-deg">Undergraduate Certificate in Computer Engineering</div>
-        <div class="edu-inst">Kathmandu University</div>
-        <div class="edu-loc">Dhulikhel, Kavre</div>
-        <div class="edu-period">Aug 2016 – Aug 2020</div>
-      </div>
-      <div class="edu-card rv">
-        <div class="edu-ico" style="background:linear-gradient(135deg,#c04010,#8a1a00)"><i class="fas fa-school"></i></div>
-        <div class="edu-deg">Higher Secondary School Certificate</div>
-        <div class="edu-inst">Seabird Int. College</div>
-        <div class="edu-loc">Madhyapur Thimi, Bhaktapur</div>
-        <div class="edu-period">May 2014 – Mar 2016</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="featured">
-  <div class="wrap">
-    <div class="sec-hdr rv"><span class="sec-n">06 ——</span><h2 class="sec-t">Featured Video</h2><div class="sec-l"></div></div>
-    <div class="fv-wrap rv">
-      <div class="fv-card">
-        <div class="fv-glow"></div>
-        <div class="fv-frame">
-          <iframe src="https://www.youtube.com/embed/xTLNa4PtJ-g?start=6&rel=0&modestbranding=1&color=white" title="Featured video — Ravi Prajapati" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-        <div class="fv-meta">
-          <span class="fv-badge"><i class="fab fa-youtube"></i> YouTube</span>
-          <p class="fv-caption">Watch more on <a href="https://youtube.com/@rovisodominator?si=Y4SRT6mssEeDuwsu" target="_blank" rel="noopener">@rovisodominator</a></p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="wrap">
-    <div class="sec-hdr rv"><span class="sec-n">07 ——</span><h2 class="sec-t">Get In Touch</h2><div class="sec-l"></div></div>
-    <div class="ct-grid">
-      <div class="rv-l">
-        <h3 class="ct-headline">Let's build<br><span>something great</span><br>together.</h3>
-        <p class="ct-intro">Always open to discussing new projects, creative ideas, or opportunities. Feel free to reach out.</p>
-        <div class="ct-items">
-          <a href="mailto:ravi.praj05@gmail.com" class="ct-item">
-            <div class="ct-ico"><i class="fas fa-envelope"></i></div>
-            <div><div class="ct-lbl">Email</div><div class="ct-val">ravi.praj05@gmail.com</div></div>
-          </a>
-          <a href="tel:+9779860073000" class="ct-item">
-            <div class="ct-ico"><i class="fas fa-phone"></i></div>
-            <div><div class="ct-lbl">Phone</div><div class="ct-val">+977-9860073000</div></div>
-          </a>
-          <div class="ct-item" style="cursor:default">
-            <div class="ct-ico"><i class="fas fa-map-marker-alt"></i></div>
-            <div><div class="ct-lbl">Location</div><div class="ct-val">Thimi-6, Bhaktapur, Nepal</div></div>
-          </div>
-        </div>
-        <div class="ct-soc">
-          <a href="https://youtube.com/@rovisodominator?si=Y4SRT6mssEeDuwsu" target="_blank" rel="noopener" class="ss-yt" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.instagram.com/roviso_dominator/" target="_blank" rel="noopener" class="ss-ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://www.linkedin.com/in/ravi-prajapati-2b7422149" target="_blank" rel="noopener" class="ss-li" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://www.facebook.com/rovisodominator" target="_blank" rel="noopener" class="ss-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.twitch.tv/rovisodominator" target="_blank" rel="noopener" class="ss-tw" aria-label="Twitch"><i class="fab fa-twitch"></i></a>
-          <a href="https://kick.com/roviso" target="_blank" rel="noopener" class="ss-kick" aria-label="Kick"><svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><path d="M2 3h4v7.4L12.2 3H17L11 10l6 11h-5l-3.8-7.3L6 16.4V21H2Z"/></svg></a>
-          <a href="https://www.tiktok.com/@roviso_dominator" target="_blank" rel="noopener" class="ss-tt" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-          <a href="https://github.com/roviso" target="_blank" rel="noopener" class="ss-gh" aria-label="GitHub"><i class="fab fa-github"></i></a>
-          <a href="mailto:ravi.praj05@gmail.com" class="ss-em" aria-label="Email"><i class="fas fa-envelope"></i></a>
-        </div>
-      </div>
-      <div class="rv-r">
-        <form class="ct-form" id="ct-form">
-          <div class="f2">
-            <div class="fg"><label>Name</label><input type="text" required placeholder="Your name"></div>
-            <div class="fg"><label>Email</label><input type="email" required placeholder="your@email.com"></div>
-          </div>
-          <div class="fg"><label>Subject</label><input type="text" required placeholder="Project, consulting..."></div>
-          <div class="fg"><label>Message</label><textarea required placeholder="Tell me about your project..."></textarea></div>
-          <button type="submit" class="btn-fill" style="width:100%;display:flex;align-items:center;justify-content:center;gap:.5rem" id="sb">
-            <i class="fas fa-paper-plane"></i><span id="sbt">Send Message</span>
-          </button>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="wrap">
-    <div class="ft">
-      <p>© 2025 Ravi Prajapati. Built with passion for AI &amp; ML.</p>
-      <div class="ft-links">
-        <a href="#hero">Home</a><a href="#about">About</a><a href="#proj">Projects</a><a href="#contact">Contact</a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<button id="stb"><i class="fas fa-arrow-up"></i></button>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="script.js"></script>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "cannon-es": "https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"
+  }
+}
+</script>
+<script type="module" src="game.js"></script>
 </body>
 </html>
