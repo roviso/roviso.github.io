@@ -1084,10 +1084,11 @@ window.addEventListener('keyup', (e) => {
 });
 
 let lastJump = 0;
+let wheelsGrounded = [false, false, false, false];
 function tryJump() {
   const now = performance.now();
   if (now - lastJump < 900) return;
-  const grounded = vehicle.wheelInfos.filter(w => w.isInContact).length >= 2;
+  const grounded = wheelsGrounded.filter(Boolean).length >= 2;
   if (!grounded) return;
   lastJump = now;
   chassisBody.applyImpulse(new CANNON.Vec3(0, chassisBody.mass * JUMP_SPEED, 0), new CANNON.Vec3(0, 0, 0));
@@ -1256,6 +1257,10 @@ function animate() {
 
   if (started) applyControls();
   world.step(1 / 60, dt, 3);
+  // cache contact state right after stepping: updateWheelTransform() below
+  // (used purely to sync wheel meshes) resets wheelInfo.isInContact as a
+  // side effect, so anything checking "grounded" must read this snapshot.
+  wheelsGrounded = vehicle.wheelInfos.map((w) => w.isInContact);
 
   // truck
   carGroup.position.copy(chassisBody.position);
