@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="description" content="Ravi Prajapati — ML/AI Engineer, Founder & CEO of Thimi Tech. Interactive 3D portfolio: drive a monster truck around an island to explore projects, skills and experience.">
 <title>Ravi Prajapati — Interactive 3D Portfolio</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23e8921a'/%3E%3Ctext x='16' y='22' font-family='Arial' font-weight='900' font-size='15' text-anchor='middle' fill='%23fffaf1'%3ERP%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="game.css">
 </head>
@@ -31,6 +32,8 @@
         <span class="key">E</span><em>interact</em>
         <span class="key">R</span><em>reset truck</em>
       </div>
+      <div class="ov-keys ov-tip">Turbo through corners to kick up dust · click the minimap to fast-travel</div>
+      <div class="ov-keys ov-touch">Drag the thumb-stick to steer and drive · tap the map to fast-travel</div>
     </div>
     <button id="start-btn">START ENGINE</button>
     <a class="ov-classic" href="classic/">← prefer the classic site?</a>
@@ -48,7 +51,7 @@
   </div>
 
   <!-- minimap -->
-  <div id="minimap-wrap">
+  <div id="minimap-wrap" title="Click the map to fast-travel">
     <canvas id="minimap" width="156" height="200"></canvas>
   </div>
 
@@ -61,7 +64,7 @@
   <!-- toast popups -->
   <div id="toasts"></div>
 
-  <div id="hint">W A S D — drive · SHIFT — turbo · SPACE — jump · R — reset</div>
+  <div id="hint">W A S D — drive · SHIFT — turbo · SPACE — jump · R — reset · click map — fast travel</div>
 
   <!-- Info panel shown near interactive zones -->
   <div id="panel" class="hidden">
@@ -73,15 +76,10 @@
 
   <!-- Touch controls -->
   <div id="touch" class="hidden">
-    <div id="t-steer">
-      <button data-k="left">◀</button>
-      <button data-k="right">▶</button>
-    </div>
+    <div id="stick"><div id="stick-knob"></div></div>
     <div id="t-drive">
       <button data-k="turbo" class="t-word">TURBO</button>
       <button data-k="jump" class="t-word">JUMP</button>
-      <button data-k="back">▼</button>
-      <button data-k="fwd">▲</button>
     </div>
   </div>
 </div>

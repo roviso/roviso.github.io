@@ -12,18 +12,23 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Inter',system-ui,s
 
 /* ---------- overlay ---------- */
 #overlay{
-  position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;
-  background:radial-gradient(120% 120% at 50% 20%, #f8f0e2 0%, #eddcc2 60%, #e2c9a3 100%);
+  position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:flex-start;padding-left:6vw;
+  /* a paper scrim on the left; the island keeps turning behind it */
+  background:linear-gradient(90deg, rgba(248,240,226,.94) 0%, rgba(248,240,226,.8) 34%, rgba(248,240,226,0) 68%);
   transition:opacity .6s ease;
 }
 #overlay.fade{opacity:0;pointer-events:none}
-.ov-card{text-align:center;padding:2rem;max-width:560px}
+.ov-card{text-align:left;padding:2rem;max-width:560px}
 .ov-kicker{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.45em;color:var(--deep);margin-bottom:1.1rem}
 .ov-name{font-size:clamp(3rem,9vw,5.2rem);font-weight:900;line-height:.95;letter-spacing:-.03em;
   background:linear-gradient(120deg,var(--ink) 30%,var(--deep) 70%,var(--orange));
   -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .ov-role{margin-top:.9rem;font-weight:600;color:#6b5335;font-size:.95rem}
-.ov-controls{margin:1.8rem 0 1.4rem;display:flex;flex-direction:column;gap:.55rem;align-items:center}
+.ov-controls{margin:1.8rem 0 1.4rem;display:flex;flex-direction:column;gap:.55rem;align-items:flex-start}
+.ov-tip{color:#8a6f4d;font-size:.74rem;margin-top:.2rem}
+/* .ov-controls prefix: these must outrank the plain .ov-keys rule below */
+.ov-controls .ov-touch{display:none}
+@media (pointer:coarse){.ov-controls .ov-keys{display:none}.ov-controls .ov-touch{display:flex;font-size:.85rem}}
 .ov-keys{display:flex;align-items:center;gap:.35rem;font-size:.8rem;color:#6b5335}
 .ov-keys em{font-style:normal;margin:0 .55rem 0 .25rem}
 .key{
@@ -61,12 +66,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Inter',system-ui,s
 #hint{
   position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);
   font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.12em;color:#8a6f4d;
-  background:rgba(255,250,241,.7);padding:.4rem .9rem;border-radius:999px
+  background:rgba(255,250,241,.7);padding:.4rem .9rem;border-radius:999px;white-space:nowrap
 }
 
 /* ---------- minimap ---------- */
 #minimap-wrap{
-  position:absolute;top:4.2rem;right:1.2rem;
+  position:absolute;top:4.2rem;right:1.2rem;pointer-events:auto;cursor:pointer;
   background:rgba(255,250,241,.8);backdrop-filter:blur(6px);
   border:1px solid #e2cfae;border-radius:.9rem;padding:.45rem;
   box-shadow:0 10px 30px -14px rgba(90,56,0,.35)
@@ -133,7 +138,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Inter',system-ui,s
 
 /* ---------- touch controls ---------- */
 #touch{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;padding:0 1.1rem 2.6rem}
-#t-steer,#t-drive{display:flex;gap:.7rem;pointer-events:auto;align-items:flex-end}
+#t-drive{display:flex;gap:.7rem;pointer-events:auto;align-items:flex-end}
+#stick{
+  width:124px;height:124px;border-radius:50%;pointer-events:auto;touch-action:none;
+  background:rgba(255,250,241,.55);border:1px solid #e2cfae;display:flex;align-items:center;justify-content:center
+}
+#stick-knob{width:54px;height:54px;border-radius:50%;background:var(--orange);box-shadow:0 6px 14px -6px rgba(192,80,16,.7);pointer-events:none}
 #touch button{
   width:60px;height:60px;border-radius:50%;border:1px solid #e2cfae;cursor:pointer;
   background:rgba(255,250,241,.85);font-size:1.25rem;color:var(--ink);
@@ -147,9 +157,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Inter',system-ui,s
 #webgl-error a{color:var(--deep)}
 
 @media (max-width:760px){
+  #overlay{justify-content:center;padding-left:0;background:rgba(248,240,226,.84)}
+  .ov-card{text-align:center}
+  .ov-controls{align-items:center}
   #hint{display:none}
   #panel{bottom:8.6rem}
-  #tasks{width:12.5rem;top:auto;bottom:9.4rem;left:1.1rem}
+  #tasks{width:11.5rem;top:3.9rem;left:1rem}
   #tasks-list{max-height:26vh}
   #minimap-wrap{top:3.9rem;right:1rem;transform:scale(.8);transform-origin:top right}
 }
